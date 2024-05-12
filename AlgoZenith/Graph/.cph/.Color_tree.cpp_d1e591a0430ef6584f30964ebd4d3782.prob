@@ -1,0 +1,1 @@
+{"name":"Local: Color_tree","url":"/Users/amankumar/DSA/AlgoZenith/Graph/Color_tree.cpp","tests":[{"id":1710149134961,"input":"4\n1 2\n4 3\n2 3","output":"3"},{"id":1710262286847,"input":"5\n1 2\n1 3\n2 4 \n2 5","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/amankumar/DSA/AlgoZenith/Graph/Color_tree.cpp","group":"local","local":true}
