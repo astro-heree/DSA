@@ -6,7 +6,6 @@ class heap{
     public: 
     int size;
     int arr[100];
-
     heap()
     {
         arr[0] = -1;
