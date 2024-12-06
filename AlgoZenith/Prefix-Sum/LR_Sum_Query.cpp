@@ -7,58 +7,45 @@ using namespace std;
 int MOD  = 1e9+7;
 #define endl "\n"
 
-vector<int> temp(10000001,0);
-vector<int> precompute(10000001,0);
-vector<int> precompute2(10000001,0);
-
 void solveAnswer(){
-    int n, k, q;
-    cin>>n>>k>>q;
-    vector<pair<int,int>> v;
-    vector<pair<int,int>> queries;
+    int n,q;
+    cin>>n>>q;
+    vector<int> v(n);
     for(int i = 0 ; i < n ; i++){
-        int a,b;
-        cin>>a>>b;
-        a--,b--;
-        v.push_back(make_pair(a,b));
-        temp[a] += 1;
-        if(b < n) temp[b+1] -= 1;
+        cin>>v[i];
     }
-    
+
+    vector<pair<int,int>> queries(q);
     for(int i = 0 ; i < q ; i++){
         int a,b;
         cin>>a>>b;
-        a--,b--;
-        queries.push_back(make_pair(a,b));
-    }
-    precompute[0] = temp[0];
-    for(int i = 1 ; i < n ; i++){
-        precompute[i] = precompute[i-1] + temp[i];
+        a--;b--;
+        queries[i] = {a,b};
     }
 
-    for(auto &it: precompute){
-        it = !(it<k);
-    }
-
-    precompute2[0] = precompute[0];
+    vector<ll> prefixSum(n);
+    prefixSum[0] = v[0];
     for(int i = 1 ; i < n ; i++){
-        precompute2[i] = precompute[i] + precompute2[i-1];
+        prefixSum[i] = ((prefixSum[i-1])%MOD + (v[i])%MOD)%MOD;
     }
 
     for(auto it: queries){
         int l = it.first;
         int r = it.second;
-        int ans = precompute2[r];
-        if(l > 0){
-            ans = ans - precompute2[l-1];
+        ll ans = prefixSum[r];
+        if(l >= 1){
+            ans = ((ans)%MOD - (prefixSum[l-1])%MOD + MOD) % MOD;
         }
+        if(ans < 0) ans += MOD;
         cout<<ans<<endl;
     }
+
+
 }
 int main() {
     fast_io();
     int t = 1;
-    //cin>>t; 
+    // cin>>t; 
     while(t--){
         solveAnswer();
     }

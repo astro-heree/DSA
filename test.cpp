@@ -7,66 +7,61 @@ using namespace std;
 int MOD  = 1e9+7;
 #define endl "\n"
 
-int returnCount(string &chocolates, string &choices){
-    int ans = 0;
-    int n = chocolates.size();
-    int fpointer = 0, lpointer = n-1;
-    for(auto it: choices){
-        if(it == 'F'){
-            if(chocolates[fpointer++] == 'R') ans++;
-        }else{
-            if(chocolates[lpointer--] == 'R') ans++;
+int findIt(vector<int> &v, int ele){
+    int s = 0, e = v.size() - 1;
+    int ans = -1;
+    while(s<=e){
+        int mid = s + (e-s)/2;
+        if(v[mid] < ele){
+            s = mid + 1;
+        } else if(v[mid] > ele){
+            ans = mid;
+            e = mid - 1;
         }
     }
     return ans;
 }
 
+int solve(string &s){
+    int n = s.size();
+    int fc = s[0];
+    int lc = s[n-1];
+    vector<int> v;
+    for(int i = 0 ; i < n ; i++){
+        if(s[i] == lc){
+            v.push_back(i);
+        }
+    }
+    int ans = INT_MIN;
+    for(int i = 0 ; i < n ; i++){
+        if(i > v.back()){
+            break;
+        }
+        if(s[i] == fc){
+            int idx = findIt(v, i);
+            if(idx != -1){
+                ans = max(ans, n - (v[idx] - i + 1));
+            }
+        }
+
+    }
+    return ans;
+
+}
+
 void solveAnswer(){
-    string s,t;
-    cin>>s>>t;
-    int ans = returnCount(s,t);
+    string s;
+    cin>>s;
+    int ans = solve(s);
     cout<<ans<<endl;
-    // int n,q;
-    // cin>>n>>q;
-    // vector<pair<ll,ll>> queries;
-    // vector<ll> v;
-    // vector<ll> product(n);
-    // vector<ll> prefixSum(n);
-    // for(int i = 0 ; i < n ; i++){
-    //     int a;
-    //     cin>>a;
-    //     v.push_back(a);
-    // }
-    // for(int i = 0 ; i < q ; i++){
-    //     int a,b;
-    //     cin>>a>>b;
-    //     a--,b--;
-    //     queries.push_back({a,b});
-    // }
-    // for(int i = 0 ; i < n ; i++){
-    //     ll val = v[i];
-    //     val = ((v[i]%MOD) * ((ll)(i+1)%MOD)%MOD);
-    //     product[i] = val;
-    // }
-    // prefixSum[0] = product[0];
-    // for(int i = 1 ; i < n ; i++){
-    //     prefixSum[i] = ((prefixSum[i-1])%MOD + (product[i])%MOD)%MOD;
-    // }
-    // for(int i = 0 ; i < q ; i++){
-    //     ll l = queries[i].first, r = queries[i].second;
-    //     ll ans = prefixSum[r];
-    //     if(l > 0) ans = (ans - prefixSum[l-1] + MOD)%MOD;
-    //     ll sum = v[r];
-    //     if(l > 0) sum = (sum - v[l-1] + MOD)%MOD;
-    //     ans = (ans - (l-1)*sum%MOD + MOD)%MOD;
-    //     cout<<ans<<endl;
-    // }
 }
 int main() {
     fast_io();
     int t = 1;
+    // cin>>t; 
     while(t--){
         solveAnswer();
     }
+    
     return 0;
 }
