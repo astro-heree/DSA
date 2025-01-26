@@ -27,6 +27,7 @@ void solveAnswer(){
         int rem = pre[i]%n;
         ans += freq[rem];
         freq[rem]++;
+        
     }
     cout<<ans<<endl;
 }
